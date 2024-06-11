@@ -1,5 +1,16 @@
 # Weather crawler module
 
-Usage:
+Example weather data crawler from some weather apps/websites
 
-`python3 app.py`
+## Testing
+
+```bash
+pytest -s
+```
+
+## Usage
+
+```bash
+git clone https://github.com/xtfocus/weather_data_crawler.git
+python3 app.py
+```
