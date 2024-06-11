@@ -22,7 +22,6 @@ def test_extract_aqi_data(mocked_aqi_response):
     soup = BeautifulSoup(mocked_aqi_response, "html.parser")
 
     aqi_value, aqi_status_text, recommendation_detail = extract_aqi_data(soup)
-    print(aqi_value, aqi_status_text, recommendation_detail)
 
     assert int(aqi_value) == 75
     assert aqi_status_text == "Moderate"
