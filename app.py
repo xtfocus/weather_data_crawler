@@ -1,9 +1,10 @@
 import json
 import os
 from datetime import datetime
+from typing import Optional, Tuple
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from dotenv import load_dotenv
 from loguru import logger
 
@@ -15,14 +16,32 @@ AIR_URL = os.environ["AIR_URL"]
 WEATHER_URL = os.environ["WEATHER_URL"]
 
 
-def get_soup(url):
+def get_soup(url: str) -> Optional[BeautifulSoup]:
+    """
+    Sends a GET request to the given URL and returns a BeautifulSoup object if the response is successful.
+
+    Args:
+        url (str): The URL to request.
+
+    Returns:
+        Optional[BeautifulSoup]: A BeautifulSoup object containing the parsed HTML content, or None if the request failed.
+    """
     response = requests.get(url)
     if response.status_code == 200:
-        soup = BeautifulSoup(response.content, "html.parser")
-        return soup
+        return BeautifulSoup(response.content, "html.parser")
+    return None
 
 
-def extract_weather_data(soup):
+def extract_weather_data(soup: BeautifulSoup) -> Tuple[str, str, str, str, str, str]:
+    """
+    Extracts weather data from the provided BeautifulSoup object.
+
+    Args:
+        soup (BeautifulSoup): A BeautifulSoup object containing the HTML content.
+
+    Returns:
+        Tuple[str, str, str, str, str, str]: A tuple containing pressure, humidity, temperature, summary, wind power, and wind direction.
+    """
     info_1 = [i.text.strip() for i in soup.select("div.bk-focus__info td")][:-1]
 
     pressure = info_1[4]
@@ -37,7 +56,16 @@ def extract_weather_data(soup):
     return (pressure, humidity, temperature, summary, wind_power, wind_dir)
 
 
-def soup_to_weather_data(soup):
+def soup_to_weather_data(soup: BeautifulSoup) -> WeatherData:
+    """
+    Converts a BeautifulSoup object to a WeatherData object.
+
+    Args:
+        soup (BeautifulSoup): A BeautifulSoup object containing the HTML content.
+
+    Returns:
+        WeatherData: An object containing the weather data.
+    """
     (
         pressure,
         humidity,
@@ -57,7 +85,17 @@ def soup_to_weather_data(soup):
     )
 
 
-def extract_aqi_data(soup):
+def extract_aqi_data(soup: BeautifulSoup) -> Tuple[str, str, str]:
+    """
+    Extracts AQI data from the provided BeautifulSoup object.
+
+    Args:
+        soup (BeautifulSoup): A BeautifulSoup object containing the HTML content.
+
+    Returns:
+        Tuple[str, str, str]: A tuple containing AQI value, AQI status text, and recommendation details.
+    """
+
     aqi_status_summary = soup.find("div", {"class": "aqi-overview__summary aqi-yellow"})
     aqi_status_text = aqi_status_summary.find(attrs={"class": "aqi-status__text"}).text
     aqi_value = aqi_status_summary.find(attrs={"class": "aqi-value__value"}).text
@@ -72,7 +110,16 @@ def extract_aqi_data(soup):
     return aqi_value, aqi_status_text, recommendation_detail
 
 
-def soup_to_air_data(soup):
+def soup_to_air_data(soup: BeautifulSoup) -> AirData:
+    """
+    Converts a BeautifulSoup object to an AirData object.
+
+    Args:
+        soup (BeautifulSoup): A BeautifulSoup object containing the HTML content.
+
+    Returns:
+        AirData: An object containing the AQI data.
+    """
     aqi_value, aqi_status_text, recommendation_detail = extract_aqi_data(soup)
 
     return AirData(
