@@ -142,7 +142,7 @@ def main():
         try:
             air_data = soup_to_air_data(air_soup)
             logger.info(f"Query time = {now}")
-            logger.info(f"Air Data: {air_data}")
+            logger.success(f"Air Data: {air_data}")
             result["air_data"] = dict(air_data)
         except ValueError as e:
             logger.exception(f"Error parsing aqi information: {e}")
@@ -152,7 +152,7 @@ def main():
     else:
         try:
             weather_data = soup_to_weather_data(weather_soup)
-            logger.info(f"Weather Data: {weather_data}")
+            logger.success(f"Weather Data: {weather_data}")
             result["weather_data"] = dict(weather_data)
         except ValueError as e:
             logger.exception(f"Error parsing weather information: {e}")
@@ -163,4 +163,3 @@ def main():
 
 if __name__ == "__main__":
     json_string = main()
-    logger.info(json_string)
