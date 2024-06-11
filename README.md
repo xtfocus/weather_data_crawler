@@ -12,5 +12,5 @@ pytest -s
 
 ```bash
 git clone https://github.com/xtfocus/weather_data_crawler.git
-python3 app.py
+python app.py
 ```
