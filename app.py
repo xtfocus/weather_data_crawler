@@ -1,3 +1,4 @@
+import json
 import os
 from datetime import datetime
 
@@ -36,7 +37,7 @@ def extract_weather_data(soup):
     return (pressure, humidity, temperature, summary, wind_power, wind_dir)
 
 
-def soup_to_weather_dict(soup):
+def soup_to_weather_data(soup):
     (
         pressure,
         humidity,
@@ -71,7 +72,7 @@ def extract_aqi_data(soup):
     return aqi_value, aqi_status_text, recommendation_detail
 
 
-def soup_to_air_dict(soup):
+def soup_to_air_data(soup):
     aqi_value, aqi_status_text, recommendation_detail = extract_aqi_data(soup)
 
     return AirData(
@@ -81,18 +82,21 @@ def soup_to_air_dict(soup):
     )
 
 
-if __name__ == "__main__":
+def main():
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     air_soup = get_soup(AIR_URL)
     weather_soup = get_soup(WEATHER_URL)
+
+    result = dict()
 
     if not air_soup:
         logger.exception("Error requesting aqi information")
     else:
         try:
-            aqi_status = soup_to_air_dict(air_soup)
+            air_data = soup_to_air_data(air_soup)
             logger.info(f"Query time = {now}")
-            logger.info(f"AQI: {aqi_status}")
+            logger.info(f"Air Data: {air_data}")
+            result["air_data"] = dict(air_data)
         except ValueError as e:
             logger.exception(f"Error parsing aqi information: {e}")
 
@@ -100,13 +104,16 @@ if __name__ == "__main__":
         logger.exception("Error requesting weather information")
     else:
         try:
-            weather_dict = soup_to_weather_dict(weather_soup)
-            logger.info(f"Weather Summary: {weather_dict.weather_summary}")
-            logger.info(
-                f"Temperature: {weather_dict.temperature}, Pressure: {weather_dict.pressure}, Humidity: {weather_dict.humidity}"
-            )
-            logger.info(
-                f"Wind Power: {weather_dict.wind_power}, Wind Direction: {weather_dict.wind_dir}"
-            )
+            weather_data = soup_to_weather_data(weather_soup)
+            logger.info(f"Weather Data: {weather_data}")
+            result["weather_data"] = dict(weather_data)
         except ValueError as e:
             logger.exception(f"Error parsing weather information: {e}")
+
+    if result:
+        return json.dumps(result)
+
+
+if __name__ == "__main__":
+    json_string = main()
+    logger.info(json_string)
