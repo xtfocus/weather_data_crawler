@@ -22,7 +22,7 @@ def get_soup(url):
 
 
 def extract_weather_data(soup):
-    info_1 = [i.text.strip() for i in weather_soup.select("div.bk-focus__info td")][:-1]
+    info_1 = [i.text.strip() for i in soup.select("div.bk-focus__info td")][:-1]
 
     pressure = info_1[4]
     humidity = info_1[-1]
