@@ -1,6 +1,23 @@
 import re
+from datetime import date
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, ValidationInfo, field_validator
+
+
+class DateModel(BaseModel):
+    """
+    Pydantic model for date range validation.
+    """
+
+    start_date: date = Field(..., ge=date(2012, 1, 1))
+    end_date: date = Field(..., le=date(2022, 12, 31))
+
+    @field_validator("end_date")
+    def validate_end_date(cls, value: date, info: ValidationInfo) -> date:
+        start_date = info.data.get("start_date")
+        if value <= start_date:
+            raise ValueError("End date must be greater than the start date.")
+        return value
 
 
 class WeatherData(BaseModel):

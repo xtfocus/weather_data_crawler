@@ -5,15 +5,12 @@ from typing import Optional, Tuple
 
 import requests
 from bs4 import BeautifulSoup, Tag
-from dotenv import load_dotenv
 from loguru import logger
 
 from models import AirData, WeatherData
 
-load_dotenv(".env_dev")
-
-AIR_URL = os.environ["AIR_URL"]
-WEATHER_URL = os.environ["WEATHER_URL"]
+AIR_URL = "https://www.iqair.com/vietnam/hanoi"
+WEATHER_URL = "https://timeanddate.com/weather/vietnam/hanoi"
 
 
 def get_soup(url: str) -> Optional[BeautifulSoup]:
@@ -96,11 +93,13 @@ def extract_aqi_data(soup: BeautifulSoup) -> Tuple[str, str, str]:
         Tuple[str, str, str]: A tuple containing AQI value, AQI status text, and recommendation details.
     """
 
-    aqi_status_summary = soup.find("div", {"class": "aqi-overview__summary aqi-yellow"})
-    aqi_status_text = aqi_status_summary.find(attrs={"class": "aqi-status__text"}).text
-    aqi_value = aqi_status_summary.find(attrs={"class": "aqi-value__value"}).text
+    aqi_status_summary = soup.select_one(
+        'div[class="aqi-overview__summary aqi-yellow"]'
+    )
+    aqi_status_text = aqi_status_summary.select_one('[class="aqi-status__text"]').text
+    aqi_value = aqi_status_summary.select_one('[class="aqi-value__value"]').text
 
-    recommendations = soup.find("div", {"class": "recommendation__detail"})
+    recommendations = soup.select_one('div[class="recommendation__detail"]')
     # Remove commercial links
     product_links = recommendations.find_all("a")
     [product_link.decompose() for product_link in product_links]
