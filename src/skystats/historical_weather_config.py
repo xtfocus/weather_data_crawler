@@ -1,4 +1,5 @@
 # Features at Historical Weather API by Open-meteo
+# https://open-meteo.com/en/docs/historical-weather-api
 
 URL = "https://archive-api.open-meteo.com/v1/archive"
 
@@ -6,9 +7,11 @@ HOURLY_COLUMNS = [
     "apparent_temperature",
     "cloud_cover",
     "dew_point_2m",
+    "et0_fao_evapotranspiration",
     "is_day",
     "precipitation",
     "pressure_msl",
+    "relative_humidity_2m",
     "surface_pressure",
     "temperature_2m",
     "vapour_pressure_deficit",
@@ -21,6 +24,7 @@ DAILY_COLUMNS = [
     "apparent_temperature_max",
     "apparent_temperature_min",
     "daylight_duration",
+    "et0_fao_evapotranspiration",
     "precipitation_hours",
     "precipitation_sum",
     "shortwave_radiation_sum",
