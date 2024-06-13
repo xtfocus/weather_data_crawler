@@ -12,16 +12,20 @@ authors = [
 
 license = {text = "MIT"}
 requires-python = ">=3.9"
-dependencies=[
-"beautifulsoup4==4.12.2",
-"pytest==8.2.2",
-"python-dotenv==1.0.0",
-"loguru==0.7.2",
-"pydantic==2.7.3",
-"requests-cache==1.2.0",
-"retry-requests==2.0.0",
-"openmeteo-requests==1.2.0",
+
+
+dependencies = [
+    "beautifulsoup4>=4.12.2,<5",
+    "pytest>=8.2.2,<9",
+    "python-dotenv>=1.0.0,<2",
+    "loguru>=0.7.2,<1",
+    "pydantic>=2.7.3,<3",
+    "requests-cache>=1.2.0,<2",
+    "retry-requests>=2.0.0,<3",
+    "openmeteo-requests>=1.2.0,<2",
+    "pandas>=2.1.0",
 ]
+
 keywords = ["weather", "historical weather", "live weather", "weather API", "data retrieval"]
 
 version = "0.1.0"
