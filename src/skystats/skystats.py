@@ -191,7 +191,7 @@ def cli():
     output_file = args.output
 
     if not (args.output):
-        output_file = f"weather_{args.start_date.replace('-', '')}_{args.end_date.replace('-', '')}"
+        output_file = f"weather_{args.frequency}_{args.start_date.replace('-', '')}_{args.end_date.replace('-', '')}"
 
     output_file += ".parquet"
 
