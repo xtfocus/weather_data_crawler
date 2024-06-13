@@ -1,8 +1,10 @@
 # skystats
 
-Simple weather data crawler from some weather apps/websites.
+Simple Hanoi weather data crawler from some weather apps/websites.
 
-Air quality: https://www.iqair.com/vietnam/hanoi
+Air quality monitoring: https://www.iqair.com/vietnam/hanoi
+
+`aqi_reference_table.csv`: AQI level interpretation taken from https://www.airnow.gov/aqi/aqi-basics/
 
 Live weather: https://timeanddate.com/weather/vietnam/hanoi
 
@@ -17,6 +19,7 @@ pip install git+https://github.com/xtfocus/weather_data_crawler.git
 ## Usage
 
 #### Live Weather
+
 ```bash
 skynow
 ```

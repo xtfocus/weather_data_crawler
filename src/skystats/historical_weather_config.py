@@ -1,23 +1,41 @@
-HOURLY_COLUMNS = [
-    "temperature_2m",
-    "dew_point_2m",
-    "precipitation",
-    "cloud_cover",
-    "wind_speed_10m",
-    "is_day",
-]
-
-DAILY_COLUMNS = [
-    "sunrise",
-    "sunset",
-    "daylight_duration",
-    "sunshine_duration",
-    "precipitation_sum",
-    "precipitation_hours",
-]
+# Features at Historical Weather API by Open-meteo
 
 URL = "https://archive-api.open-meteo.com/v1/archive"
 
+HOURLY_COLUMNS = [
+    "apparent_temperature",
+    "cloud_cover",
+    "dew_point_2m",
+    "is_day",
+    "precipitation",
+    "pressure_msl",
+    "surface_pressure",
+    "temperature_2m",
+    "vapour_pressure_deficit",
+    "wind_direction_10m",
+    "wind_gusts_10m",
+    "wind_speed_10m",
+]
+
+DAILY_COLUMNS = [
+    "apparent_temperature_max",
+    "apparent_temperature_min",
+    "daylight_duration",
+    "precipitation_hours",
+    "precipitation_sum",
+    "shortwave_radiation_sum",
+    "sunrise",
+    "sunset",
+    "sunshine_duration",
+    "temperature_2m_max",
+    "temperature_2m_min",
+    "weather_code",
+    "wind_gusts_10m_max",
+    "wind_speed_10m_max",
+]
+
+
+# Hanoi, Vietname
 LOCATION = {
     "latitude": 21.0245,
     "longitude": 105.8412,
