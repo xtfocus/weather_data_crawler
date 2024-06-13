@@ -1,12 +1,6 @@
-# Weather crawler module
+# skystats
 
-Example weather data crawler from some weather apps/websites.
-
-## Testing
-
-```bash
-pytest -s
-```
+Simple weather data crawler from some weather apps/websites.
 
 ## Install
 
