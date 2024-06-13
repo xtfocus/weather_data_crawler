@@ -141,6 +141,7 @@ def get_history_weather(start_date: str, end_date: str, frequency: str):
         raise ValueError("Invalid data type. Choose 'hourly' or 'daily'.")
 
     logger.info(data.head())
+    return data
 
 
 def cli():
@@ -168,15 +169,29 @@ def cli():
         "--frequency",
         type=str,
         choices=["hourly", "daily"],
+        required=True,
         help="Frequency of data to fetch: hourly or daily",
         default="daily",
     )
 
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        required=False,
+        help="Name of output parquet file",
+    )
+
     args = parser.parse_args()
 
-    get_history_weather(
+    data = get_history_weather(
         args.start_date, args.end_date, args.frequency
     )  # argparse understand --start-date is start_date
+
+    if args.output:
+        output_file = f"{args.output}.parquet"
+        data.to_parquet(output_file)
+        logger.success(f"Historical data saved to {output_file}. Lines: {len(data)}")
 
 
 if __name__ == "__main__":
