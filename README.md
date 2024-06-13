@@ -2,8 +2,17 @@
 
 Simple weather data crawler from some weather apps/websites.
 
+Air quality: https://www.iqair.com/vietnam/hanoi
+
+Live weather: https://timeanddate.com/weather/vietnam/hanoi
+
+Historical data: https://open-meteo.com
+
 ## Install
 
+```bash
+pip install git+https://github.com/xtfocus/weather_data_crawler.git
+```
 
 ## Usage
 
