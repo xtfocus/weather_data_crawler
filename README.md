@@ -34,7 +34,9 @@ Example output:
 
 #### Weather History
 
-Get daily weather stats from 2022 Jan 1st till 2022 Feb 1st:
+Download daily weather stats from 2022 Jan 1st till 2022 Feb 1st:
+
 ```bash
-skystats -s 2022-01-01 -e 2022-02-01 -f daily # options: daily, hourly
+skystats -s 2022-01-01 -e 2022-02-01 -f daily \ # options: daily, hourly
+    -o myweatherdata # optional, default
 ```

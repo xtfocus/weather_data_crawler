@@ -188,10 +188,15 @@ def cli():
         args.start_date, args.end_date, args.frequency
     )  # argparse understand --start-date is start_date
 
-    if args.output:
-        output_file = f"{args.output}.parquet"
-        data.to_parquet(output_file)
-        logger.success(f"Historical data saved to {output_file}. Lines: {len(data)}")
+    output_file = args.output
+
+    if not (args.output):
+        output_file = f"weather_{args.start_date.replace('-', '')}_{args.end_date.replace('-', '')}"
+
+    output_file += ".parquet"
+
+    data.to_parquet(output_file)
+    logger.success(f"Historical data saved to {output_file}. Lines: {len(data)}")
 
 
 if __name__ == "__main__":
