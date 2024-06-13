@@ -24,6 +24,7 @@ dependencies = [
     "retry-requests>=2.0.0,<3",
     "openmeteo-requests>=1.2.0,<2",
     "pandas>=2.1.0",
+    "fastparquet>=2024.5.0"
 ]
 
 keywords = ["weather", "historical weather", "live weather", "weather API", "data retrieval"]
