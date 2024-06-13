@@ -9,8 +9,8 @@ from loguru import logger
 from pydantic import BaseModel, Field, ValidationInfo, field_validator
 from retry_requests import retry
 
-from historical_weather_config import DAILY_COLUMNS, HOURLY_COLUMNS, LOCATION, URL
-from models import DateModel
+from .historical_weather_config import DAILY_COLUMNS, HOURLY_COLUMNS, LOCATION, URL
+from .models import DateModel
 
 
 def setup_openmeteo_client() -> openmeteo_requests.Client:
@@ -122,7 +122,10 @@ def get_historical_daily_data(
     return daily_dataframe
 
 
-def main(start_date, end_date, data_type):
+def get_history_weather(start_date: str, end_date: str, frequency: str):
+    """
+    Validate date inputs and execute GET
+    """
     openmeteo = setup_openmeteo_client()
 
     date_range = DateModel(
@@ -130,9 +133,9 @@ def main(start_date, end_date, data_type):
         end_date=datetime.strptime(end_date, "%Y-%m-%d").date(),
     )
 
-    if data_type == "hourly":
+    if frequency == "hourly":
         data = get_historical_hourly_data(openmeteo, date_range)
-    elif data_type == "daily":
+    elif frequency == "daily":
         data = get_historical_daily_data(openmeteo, date_range)
     else:
         raise ValueError("Invalid data type. Choose 'hourly' or 'daily'.")
@@ -140,19 +143,41 @@ def main(start_date, end_date, data_type):
     logger.info(data.head())
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Fetch historical weather data.")
-    parser.add_argument(
-        "start_date", type=str, help="Start date in the format YYYY-MM-DD"
+def cli():
+    parser = argparse.ArgumentParser(
+        prog="skystats", description="Fetch historical weather data."
     )
-    parser.add_argument("end_date", type=str, help="End date in the format YYYY-MM-DD")
+
+    # Specify all args as mandatory and explicit (like python mandatory kwarg) with required=True + shorthands
     parser.add_argument(
-        "data_type",
+        "-s",
+        "--start-date",
+        required=True,
+        type=str,
+        help="Start date in the format YYYY-MM-DD",
+    )
+    parser.add_argument(
+        "-e",
+        "--end-date",
+        required=True,
+        type=str,
+        help="End date in the format YYYY-MM-DD",
+    )
+    parser.add_argument(
+        "-f",
+        "--frequency",
         type=str,
         choices=["hourly", "daily"],
-        help="Type of data to fetch: hourly or daily",
+        help="Frequency of data to fetch: hourly or daily",
+        default="daily",
     )
 
     args = parser.parse_args()
 
-    main(args.start_date, args.end_date, args.data_type)
+    get_history_weather(
+        args.start_date, args.end_date, args.frequency
+    )  # argparse understand --start-date is start_date
+
+
+if __name__ == "__main__":
+    cli()

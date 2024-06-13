@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from loguru import logger
 
-from models import AirData, WeatherData
+from .models import AirData, WeatherData
 
 AIR_URL = "https://www.iqair.com/vietnam/hanoi"
 WEATHER_URL = "https://timeanddate.com/weather/vietnam/hanoi"
@@ -93,11 +93,8 @@ def extract_aqi_data(soup: BeautifulSoup) -> Tuple[str, str, str]:
         Tuple[str, str, str]: A tuple containing AQI value, AQI status text, and recommendation details.
     """
 
-    aqi_status_summary = soup.select_one(
-        'div[class="aqi-overview__summary aqi-yellow"]'
-    )
-    aqi_status_text = aqi_status_summary.select_one('[class="aqi-status__text"]').text
-    aqi_value = aqi_status_summary.select_one('[class="aqi-value__value"]').text
+    aqi_status_text = soup.select_one('[class="aqi-status__text"]').text
+    aqi_value = soup.select_one('[class="aqi-value__value"]').text
 
     recommendations = soup.select_one('div[class="recommendation__detail"]')
     # Remove commercial links
@@ -128,7 +125,7 @@ def soup_to_air_data(soup: BeautifulSoup) -> AirData:
     )
 
 
-def main():
+def weather_now():
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     air_soup = get_soup(AIR_URL)
     weather_soup = get_soup(WEATHER_URL)
@@ -161,4 +158,4 @@ def main():
 
 
 if __name__ == "__main__":
-    json_string = main()
+    json_string = weather_now()

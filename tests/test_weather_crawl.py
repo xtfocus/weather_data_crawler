@@ -3,7 +3,7 @@ import pytest
 from bs4 import BeautifulSoup
 from loguru import logger
 
-from app import extract_aqi_data, extract_weather_data
+from skystats.skynow import extract_aqi_data, extract_weather_data
 
 
 @pytest.fixture
