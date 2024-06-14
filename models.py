@@ -9,7 +9,7 @@ class DateModel(BaseModel):
     Pydantic model for date range validation.
     """
 
-    start_date: date = Field(..., ge=date(2012, 1, 1))
+    start_date: date = Field(..., ge=date(2010, 1, 1))
     end_date: date = Field(..., le=date(2022, 12, 31))
 
     @field_validator("end_date")

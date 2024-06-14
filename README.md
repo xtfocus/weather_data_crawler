@@ -32,11 +32,21 @@ Example output:
 2024-06-11 15:33:19.478 | SUCCESS  | __main__:main:155 - Weather Data: pressure='1003 mbar' humidity='60%' temperature='35°C' weather_summary='Passing clouds.' wind_power='17 km/h' wind_dir='Wind blowing from 130° Southeast to Northwest'
 ```
 
-#### Weather History
+#### Weather History (Currently supports from 2010-2022 range only)
 
-Download daily weather stats from 2022 Jan 1st till 2022 Feb 1st:
+To download daily weather stats from 2022 Jan 1st till 2022 Feb 1st:
 
 ```bash
 skystats -s 2022-01-01 -e 2022-02-01 -f daily \ # options: daily, hourly
     -o myweatherdata # optional, default
 ```
+
+## Warning: Known issue
+
+The returned `date` column is actually still GMT, not Asia/Bangkok (I created an [issue](https://github.com/open-meteo/open-meteo/issues/850)). This is possibly a bug from open-meteo.
+
+To fix this, simply move time forward by 7 hours in your hourly data.
+
+Not sure if the issue stems from something deeper that can influence daily data as well.
+
+Right now it's best to fix hourly as recommended above (until the git issue is resolved). Refrain from using daily data for feature engineering.
