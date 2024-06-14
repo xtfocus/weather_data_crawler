@@ -7,17 +7,23 @@ HOURLY_COLUMNS = [
     "apparent_temperature",
     "cloud_cover",
     "dew_point_2m",
+    "direct_radiation",
+    "direct_normal_irradiance",
+    "diffuse_radiation",
     "et0_fao_evapotranspiration",
     "is_day",
     "precipitation",
     "pressure_msl",
     "relative_humidity_2m",
     "surface_pressure",
+    "sunshine_duration",
+    "shortwave_radiation",
     "temperature_2m",
     "vapour_pressure_deficit",
     "wind_direction_10m",
     "wind_gusts_10m",
     "wind_speed_10m",
+    "weather_code",
 ]
 
 DAILY_COLUMNS = [
