@@ -59,8 +59,12 @@ def get_historical_hourly_data(
     hourly = response.Hourly()
     hourly_data = {
         "date": pd.date_range(
-            start=pd.to_datetime(hourly.Time(), unit="s", utc=True),
-            end=pd.to_datetime(hourly.TimeEnd(), unit="s", utc=True),
+            start=pd.to_datetime(hourly.Time(), unit="s", utc=True).tz_convert(
+                timezone(timedelta(seconds=response.UtcOffsetSeconds()))
+            ),
+            end=pd.to_datetime(hourly.TimeEnd(), unit="s", utc=True).tz_convert(
+                timezone(timedelta(seconds=response.UtcOffsetSeconds()))
+            ),
             freq=pd.Timedelta(seconds=hourly.Interval()),
             inclusive="left",
         )
